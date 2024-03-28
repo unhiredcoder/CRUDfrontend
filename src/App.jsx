@@ -1,6 +1,6 @@
 import React from 'react'
 import Nav from './Nav'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route ,Navigate} from 'react-router-dom'
 import Footer from './Footer'
 import Signup from './Signup'
 import Private from './Private';
@@ -9,6 +9,11 @@ import { ToastContainer } from 'react-toastify';   //use in your root component 
 import Addproduct from './Addproduct'
 import ProductList from './ProductList'
 import UpdateProduct from './UpdateProduct'
+
+const isAuthenticated = () => {
+  // Example: check if user is logged in based on your authentication logic
+  return !!localStorage.getItem('user'); 
+};
 
 
 const App = () => {
@@ -29,11 +34,16 @@ const App = () => {
                         <Route path='/logout' element={<h1>logiut</h1>} />
                     </Route>
 
-                    <Route path='/signup' element={<Signup />} />
-                    <Route path='/Login' element={<Login />} />
+                 <Route
+            path="/signup"
+            element={isAuthenticated() ? <Navigate to="/" /> : <Signup />}
+          />
+          <Route
+            path="/Login"
+            element={isAuthenticated() ? <Navigate to="/" /> : <Login />}
+          />
                 </Routes>
             </BrowserRouter>
-            <Footer />
         </>
     )
 }
